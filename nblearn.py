@@ -3,22 +3,17 @@
 # Author: Pablo Garay
 # Description: Learns a Naive Bayes model parameters from a training set provided as command-line argument
 
-import string
 from itertools import izip
 import json
 from math import log
-import operator
 import sys
+
+import operator
+
+from utils import *
 
 # definitions
 count_true = count_false = 0
-veracity_vals = ["truthful", "deceptive"]
-sentiment_vals = ["positive, negative"]
-rev_classes = ["truthful", "deceptive", "positive", "negative"]
-li_freq_3_letter_words = "the, and, for, are, can, had, was, one, our, " \
-                           "get, his, how, who, did, its, let, " \
-                           "put".split(", ")
-translation_table = string.maketrans(string.punctuation, ' ' * len(string.punctuation))
 
 # process command-line params
 if len(sys.argv) != 3:
@@ -60,6 +55,7 @@ tr_labels = data_labels
 # print tr_size, te_size
 
 num_instances = {}
+num_appearances = {}
 class_instances = {"truthful": 0, "deceptive": 0, "positive": 0, "negative": 0}
 # Create a table to replace all punctuation strings by white spaces (punctuation symbols usually act like separators)
 
@@ -72,7 +68,7 @@ for i in range(tr_size):
 
         if word_length > 2: # only consider words with more than 2 characters
             if word_length == 3: # ignore most common frequent 3-letter words in English that are not helpful - taken from Cryptography
-                if word in li_freq_3_letter_words:
+                if word in li_freq_words:
                     continue
 
             if word not in num_instances:
@@ -80,10 +76,12 @@ for i in range(tr_size):
                                        "deceptive":0,
                                        "positive":0,
                                        "negative":0}
+                num_appearances[word] = 0
             num_instances[word][veracity] += 1
             num_instances[word][sentiment] += 1
             class_instances[veracity] += 1
             class_instances[sentiment] += 1
+            num_appearances[word] += 1
 
 # # print words in dictionary in alphabetical order
 # for word in sorted(num_instances.keys()):
@@ -102,13 +100,26 @@ print "Num lines: %d" %tr_size
 #         k_instances[k] += num
 # print k_instances
 
+# # Find average number of instances of a word across the different classes
+# avg_instances = {}
+# for word in num_instances:
+#     avg_instances[word] = sum([num_instances[word][k] for k in rev_classes]) / float(len(rev_classes))
+# # sorted_avg_instances = sorted(avg_instances.items(), key=operator.itemgetter(1), reverse=True)
+# # print sorted_avg_instances
+# sorted_num_appearances = sorted(num_appearances.items(), key=operator.itemgetter(1), reverse=True)
+# print sorted_num_appearances
+
+# Find conditional (posterior) probabilities of word occurrence given a class
 posterior_prob = {}
 # Apply Laplace (Add-One) Smoothing
 for word in num_instances:
-    posterior_prob[word] = {} # init
-    for k in class_instances:
-        posterior_prob[word][k] = float(num_instances[word][k] + 1) / float(class_instances[k] + num_words_found)
-    # print probability[word]
+    if num_appearances[word] > 2: #feature selection
+        posterior_prob[word] = {} # init
+        for k in class_instances:
+            posterior_prob[word][k] = float(num_instances[word][k] + 1) / float(class_instances[k] + num_words_found)
+        # print probability[word]
+
+print "Number of words after filtering selection: ", len(posterior_prob.keys())
 
 # # Testing: check probabilities sum to 1
 # suma = {"truthful": 0.0, "deceptive": 0.0, "positive": 0.0, "negative": 0.0}
@@ -136,10 +147,11 @@ with open("nbmodel.txt", 'wb') as f_nb_params:
     json.dump(prob, f_nb_params)
 
 
-
-
-
-
+# avg_prob = {}
+# for word in posterior_prob:
+#     avg_prob[word] = sum([posterior_prob[word][k] for k in rev_classes]) / len(rev_classes)
+# sorted_avg_prob = sorted(avg_prob.items(), key=operator.itemgetter(1), reverse=True)
+# print sorted_avg_prob
 
 
 
@@ -229,7 +241,6 @@ def report_summary(num_instances):
     print "#words with freq >= 50: ", count_freq_50_words
     print "#words with freq >= 100: ", count_freq_100_words
     print "#words with freq >= 1000: ", count_freq_1000_words
-
 # report_summary(num_instances)
 
 

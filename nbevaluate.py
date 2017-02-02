@@ -8,7 +8,7 @@ from itertools import izip
 test_file_labels = "data/test-data-labels.txt"
 veracity_correct_count = veracity_incorrect_count = sentiment_correct_count = sentiment_incorrect_count = 0
 
-count = 0
+# count = 0
 with open("nboutput.txt") as f_out_labels, open(test_file_labels) as f_te_labels:
     for line_out_labels, line_te_labels in izip(f_out_labels, f_te_labels):
         # get rid of the id which for our purposes is useless. Make text lowercase
@@ -28,7 +28,7 @@ with open("nboutput.txt") as f_out_labels, open(test_file_labels) as f_te_labels
         if predicted_sentiment == lbl_sentiment: sentiment_correct_count += 1
         else: sentiment_incorrect_count += 1
 
-
+# Print some metrics as evaluation report
 print "veracity_correct_count: ", veracity_correct_count
 print "veracity_incorrect_count: ", veracity_incorrect_count
 print "veracity_acc: ", float(veracity_correct_count) / float(veracity_correct_count + veracity_incorrect_count) * 100

@@ -1,7 +1,7 @@
 kZqc6HiOlLweioMlZf6P deceptive negative
 ka22Iqnlymfk9t1DpNjK truthful positive
 kcOOWN2z5jhek7aCMMIG deceptive positive
-keL3MeNIUoCH2ZQBCXjj truthful positive
+keL3MeNIUoCH2ZQBCXjj deceptive positive
 khofLk3seWf1vIkBK86F truthful positive
 kmeavJtwoliFAS1bSzy3 deceptive positive
 koxaDcmefNp3NBc8Vl8X truthful negative
@@ -9,7 +9,7 @@ krSXXrFsg7WrkFrPO8MA truthful negative
 krrGSskG78fZsfbs8h74 truthful negative
 kzUCY2jEEitfuubZMbiX truthful positive
 kzk7Ay8crAWgT8eEYxAZ deceptive positive
-l6xebiHzOWGSO1cV2sgp deceptive negative
+l6xebiHzOWGSO1cV2sgp truthful negative
 l9EhRHf6adGeHYaZzwub deceptive negative
 lD4mlH9sWDtqNrATSV9f deceptive positive
 lGVdqTWEqBFdU5XbnhKI truthful positive
@@ -19,7 +19,7 @@ lQhwZsCIMBp20LRUkouK truthful positive
 lRzEOJKvsTOvpXmhgUlI deceptive negative
 lSYXz6BgPxAAZxbdcWgo deceptive positive
 lUuHPqklDPROMBujjBQr truthful negative
-le6LTI2YDD3DNrAt6aLJ truthful positive
+le6LTI2YDD3DNrAt6aLJ truthful negative
 leMECmPzBhyeXoBy6WHx truthful negative
 lk8pkWCDzFDwRcSeTtwS deceptive negative
 lmtd659bf8oFEUkp0TCE deceptive positive
@@ -96,10 +96,10 @@ ozUfH9fswEtVbieVmRnx truthful positive
 p0TCRCJmK0A1HTxz1MBx deceptive positive
 p5olyMB8eqU5jRKn61e4 deceptive negative
 p6eCSyVqRCk6qIICb3zA truthful negative
-pA1eacOaaCZkgq1UFLDS deceptive negative
+pA1eacOaaCZkgq1UFLDS truthful negative
 pDcE8BCSf3PyHtVdp1cI deceptive positive
 pFYMwMQrhgjVA3qnu3DD truthful positive
-pI4Y9AkAzxngrgPk7F1C truthful positive
+pI4Y9AkAzxngrgPk7F1C deceptive negative
 pIvjhcGdZjypSQixUB6G deceptive negative
 pLJ91WNIwUHuBV0IBmfW truthful negative
 pN3AilBmAh2rhqBuFGca truthful positive
@@ -110,13 +110,13 @@ pXjuXjXYasAMvD4tOQBU truthful negative
 pYvZm2ulCX25Eo3hcc6q truthful positive
 pYwrvDq87mBQmCXZWpZ6 deceptive negative
 pa7M0kBkXONGBB18v7UC deceptive positive
-pcL7NCX7mr6KvXdILr7L truthful positive
+pcL7NCX7mr6KvXdILr7L deceptive positive
 pehWuIOGlQ3oQGXxeTNR deceptive positive
 ph2UWvKv7Wjk7kXY5EPu deceptive negative
 pkfEkkQZEPzkGz50vZ3I truthful positive
 pmWeoqM7F4S8A6EkZnbX deceptive negative
 pmjQPiZ9oMWjViQGGEHX truthful positive
-pmvlbQ7SPqCZG9knGExG truthful positive
+pmvlbQ7SPqCZG9knGExG deceptive positive
 poJIDZFmhFCr8jtIPIFL truthful negative
 pqdd7pIHEn5jx33iZOT6 deceptive negative
 pteB9wDEOBOuDTfpFNke deceptive negative
@@ -140,10 +140,10 @@ qoPS2snnNPVvrgd2HygH deceptive positive
 r4RKJx4Tjj8N7TdTbjhg deceptive negative
 r58p3ICrNvM5Q8oTGF0z deceptive negative
 rACAHFeu2jSrlZiSnh4F truthful negative
-rCFNDQDwqYzDWjluiCJQ truthful negative
+rCFNDQDwqYzDWjluiCJQ deceptive negative
 rCiTbhDt4D70HuOG0uc9 deceptive positive
 rIMQV4gGHH7m1ZUuGAXI deceptive negative
-rKnQU9HLgC2mSF3EiVBn deceptive positive
+rKnQU9HLgC2mSF3EiVBn truthful positive
 rPJwOwOliqQeAeSyiZVu truthful negative
 rW4x1KYZa5gWBzs9i6Al truthful negative
 rWUriO3ffNI075D38byU truthful positive
@@ -152,7 +152,7 @@ rdDrBxbwOcBVrkUhwJoB deceptive positive
 rdLgqGD6gNWdQOq1QpmV truthful negative
 rfJNTadLbshovaxj7zCg truthful negative
 rihXxYyARuLUGuC8yXGL deceptive negative
-rml0T9JjRb5CeaejcoAv truthful negative
+rml0T9JjRb5CeaejcoAv deceptive negative
 rsmxzojz1uJJsuArp81J truthful positive
 rwiFxdYYUBzgDndCVLYM truthful positive
 rxmk4VjtQNlEk6pGKgWq deceptive positive
@@ -167,7 +167,7 @@ sINLZw0y39dEMnh05gpg truthful negative
 sNm52hKJTVlxiagfSC9H truthful negative
 sZDdEGRIVYduxFcQcuWt truthful positive
 sfItZ0NCX89qmHObAXlm truthful negative
-sfVBortd6ssmEflrPsL8 truthful positive
+sfVBortd6ssmEflrPsL8 truthful negative
 sgfBQr2nIZWuR8puoYcT truthful negative
 smQOFXiGSNbvGhhh8bcu deceptive positive
 sml5rzTNmwNZARZ4DFgr truthful positive
@@ -182,7 +182,7 @@ tBu3Yx1TiphYh9sMsfqy truthful positive
 tHA1BlJdPmrgTf9rmoYe deceptive negative
 tIy1UUPLgQvpX3bo9qAa truthful negative
 tZ3UXBgSidGOl5qZTYnl truthful negative
-tdxCfne590JsvlU0ju8b truthful positive
+tdxCfne590JsvlU0ju8b deceptive positive
 tlNs6SvNUWwV92GHyJzG deceptive positive
 tpuLfCCuMz0jCUYA25vj deceptive negative
 tuyZ1YjBSugvD30J7Rlp deceptive negative
@@ -204,7 +204,7 @@ ugSMfA1jIis7HvdHadqu truthful positive
 ujUHkGaQFxPxUWLoqUPM truthful negative
 uk38lFia7vMrbUHbx8Yr truthful negative
 ulpZLoULJe3sxEs3mlvO deceptive positive
-uoxYI3H0wAOoaAX2AiFE truthful positive
+uoxYI3H0wAOoaAX2AiFE deceptive positive
 upsEx5fgHhBklheLXJUM deceptive negative
 uuCavAOgXHH2gENqY7ir deceptive negative
 v2PkXYTzdSnZPDqSmFQk deceptive positive
@@ -212,7 +212,7 @@ v3EkQdRrHbNnF9K0uVSB truthful positive
 v8IrJAIvgBHkVATRQIkb deceptive positive
 vCI0pRW6bWujO6D6FlXT deceptive negative
 vDm63WYmzJEOahUmJyiN truthful negative
-vIKlHZun7ssbdo3Li3Ok deceptive negative
+vIKlHZun7ssbdo3Li3Ok deceptive positive
 vIanR0swdQL1Wsw1JZri truthful negative
 vPGz1XeYdBBOkHkVRbwy truthful negative
 vRqeK37wqhLclkoS8N1M truthful positive
@@ -234,7 +234,7 @@ wIXCdbZ7vRyMyJpkyCer deceptive negative
 wJGTklYs4qWBT9ZCqHnQ truthful positive
 wSi7veb5SbJYUKWpgLcc deceptive negative
 wWyuD27jaW14J18QHYXl deceptive negative
-waN4fJ123Hr7fPUWW5c7 deceptive positive
+waN4fJ123Hr7fPUWW5c7 truthful positive
 wc8tbi41kj7gckVgByKF deceptive negative
 wfvdhSMkwMNlC4phDubE truthful negative
 wiyCgnoGqQuyWrO4QTuW truthful negative
@@ -243,7 +243,7 @@ wsbNToyceIhzCBgZsUcO deceptive positive
 wvIzYP5yXwHHXgUsJu0B deceptive positive
 wwohG3i7EHm0qZddYLZj deceptive positive
 x1W9wJzHjv2oggtJ78Fh deceptive positive
-x3kn0AU0bqLOU137q9BW truthful negative
+x3kn0AU0bqLOU137q9BW deceptive negative
 x6K7kLY25ZmHxCfQWFic truthful negative
 x8fG4Cpf34hrRVflzBjC deceptive positive
 xBOPygy1ZC1bn5REnkHn truthful negative
@@ -258,11 +258,11 @@ xTEW9SpxufwdWo2jtDu2 truthful negative
 xhLKxBsGAZfUKJNUDOoQ deceptive positive
 xjQZ7SpNGyutxaPZkRRE deceptive negative
 xkfuwhYBcPKjCpIccknM truthful negative
-xnFLzKdY0wq8d3p3k2gN truthful negative
+xnFLzKdY0wq8d3p3k2gN deceptive negative
 xnWSw3uN6HX1QHQ3H2Vy truthful positive
 xoTUVKBOyNxQCSIckdlT deceptive negative
 xs8edd0WfStEW4GB2jN8 deceptive negative
-xtfLRrxR36uodruRgeoL truthful negative
+xtfLRrxR36uodruRgeoL deceptive negative
 xx4xAtWAGz0I0Tsgb9Ql deceptive negative
 xy98kw3zeo4LgfMLCJnS truthful negative
 xzAb3MgQvWUV3CxCAIrI deceptive positive
@@ -279,7 +279,7 @@ yMUjbuZABOaWNO3jKl8j deceptive negative
 yO8GXXZrbUf7S6vguiwD truthful positive
 yON2TGxH2rGZNStU5x1y deceptive positive
 yPHsGAPJya4AswH5W2W7 deceptive positive
-yQBISMl7HLyFhtIhQGVn truthful negative
+yQBISMl7HLyFhtIhQGVn deceptive negative
 yRb7nBWuegFmK00V1mOx deceptive negative
 yV2SpdQGS9XzncOCJSNR truthful negative
 yWevDbZ78NozmTpoGv9O deceptive positive
@@ -291,7 +291,7 @@ yjG2JLndPGGeynfZneul deceptive positive
 ymvOuGFTzS0mTqheWen8 deceptive positive
 yuakUIjCfF3EgFNYlVgB deceptive positive
 yuzyPqQxB3CpLG8ILHeU truthful negative
-yvgYgXX5QJIRGrw0OKLv deceptive negative
+yvgYgXX5QJIRGrw0OKLv truthful negative
 ywtx5gWWpJgQy9lDiqLd deceptive positive
 z3PcNuChHSSm2N2foaA4 truthful positive
 z47ILdDfuUiGbTlq8SFT deceptive positive
