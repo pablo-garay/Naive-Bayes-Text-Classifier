@@ -22,47 +22,35 @@ if len(sys.argv) != 3:
 file_text = sys.argv[1]
 file_label = sys.argv[2]
 
-data_text = []
-data_labels = []
+line_text = {}
+line_labels = {}
 
-with open(file_text) as f_text, open(file_label) as f_labels:
-    for line_ftext, line_flabels in izip(f_text, f_labels):
-        # get rid of the id which for our purposes is useless. Make text lowercase
-        text = line_ftext.strip().split(' ', 1)[1]
-        data_text.append(text.lower())
-        data_labels.append(line_flabels.strip().split(' ', 1)[1].lower())
+# Read file with review texts, save lines in dictionary with key id
+with open(file_text) as f_text:
+    for line_ftext in f_text:
+        # Make text lowercase
+        (id, text) = line_ftext.strip().split(' ', 1)
+        line_text[id] = text.lower()
 
+# Read file with review labels, save lines in dictionary with key id
+with open(file_label) as f_labels:
+    for line_flabels in f_labels:
+        # Make text lowercase
+        (id, label) = line_flabels.strip().split(' ', 1)
+        line_labels[id] = label.lower()
 
-size_data = len(data_text)
-# print size_data
+tr_size = len(line_text.keys())
 
-# for i in range(size_data):
-#     print data_labels[i], data_text[i]
-#     print
-
-split_pct = int(0.75 * size_data)
-# print split_pct
-
-tr_text = data_text
-tr_size = len(tr_text)
-tr_labels = data_labels
-# tr_text = data_text[:split_pct]
-# tr_labels = data_labels[:split_pct]
-# tr_size = len(tr_text)
-# te_text = data_text[split_pct:]
-# te_labels = data_labels[split_pct:]
-# te_size = len(te_text)
-# print tr_size, te_size
 
 num_instances = {}
 num_appearances = {}
 class_instances = {"truthful": 0, "deceptive": 0, "positive": 0, "negative": 0}
 # Create a table to replace all punctuation strings by white spaces (punctuation symbols usually act like separators)
 
-for i in range(tr_size):
-    veracity, sentiment = tr_labels[i].split() #get the 2 classes
+for id in line_text.keys():
+    veracity, sentiment = line_labels[id].split() #get the 2 classes
 
-    for word in tr_text[i].translate(translation_table, "'").split(): #delete ' character
+    for word in line_text[id].translate(translation_table, "'").split(): #delete ' character
         #for each word in the text description of a review
         word_length = len(word)
 
@@ -146,6 +134,13 @@ json_prob = json.dumps(prob)
 with open("nbmodel.txt", 'wb') as f_nb_params:
     json.dump(prob, f_nb_params)
 
+
+
+
+
+
+
+# ---------------- IGNORE THE REST OF THE CODE; FOR TESTING PURPOSES ONLY ----------------------#
 
 # avg_prob = {}
 # for word in posterior_prob:
