@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # Author: Pablo Garay
-# Description: Load the Naive Bayes model parameters and classifies/predicts labels for a input data
+# Description: Load the Naive Bayes model parameters and classifies/predicts labels for input data
 
 import json
 from math import log
