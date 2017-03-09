@@ -1,0 +1,93 @@
+C:\Users\Pablo\Anaconda2\python.exe C:/Users/Pablo/Desktop/courses/NLP/homeworks/coding/nblearn.py data/train-text.txt data/train-labels.txt
+960 320
+Number of different words found:  7512
+veracity_correct_count:  271
+veracity_incorrect_count:  49
+veracity_acc:  84.6875
+sentiment_correct_count:  299
+sentiment_incorrect_count:  21
+sentiment_acc:  93.4375
+
+Process finished with exit code 0
+
+
+
+veracity_correct_count:  272
+veracity_incorrect_count:  48
+veracity_acc:  85.0
+sentiment_correct_count:  295
+sentiment_incorrect_count:  25
+sentiment_acc:  92.1875
+
+
+
+After feature selection (avg > 1)
+veracity_correct_count:  273
+veracity_incorrect_count:  47
+veracity_acc:  85.3125
+sentiment_correct_count:  295
+sentiment_incorrect_count:  25
+sentiment_acc:  92.1875
+
+
+After feature selection (avg > 2)
+veracity_correct_count:  269
+veracity_incorrect_count:  51
+veracity_acc:  84.0625
+sentiment_correct_count:  297
+sentiment_incorrect_count:  23
+sentiment_acc:  92.8125
+
+After feature selection (avg >= 4)
+veracity_correct_count:  272
+veracity_incorrect_count:  48
+veracity_acc:  85.0
+sentiment_correct_count:  296
+sentiment_incorrect_count:  24
+sentiment_acc:  92.5
+
+
+After feature selection (avg > 4)
+veracity_correct_count:  269
+veracity_incorrect_count:  51
+veracity_acc:  84.0625
+sentiment_correct_count:  299
+sentiment_incorrect_count:  21
+sentiment_acc:  93.4375
+
+
+
+
+
+
+
+
+Logs Vocareum
+avg_instances[word] > 1
+Precision	Recall	F1
+Deceptive	0.85	0.86	0.86
+Truthful	0.86	0.85	0.86
+Negative	0.89	0.95	0.92
+Positive	0.95	0.88	0.91
+Weighted Avg.	0.89
+
+avg_instances[word] > 2
+Precision	Recall	F1
+Deceptive	0.84	0.86	0.85
+Truthful	0.86	0.83	0.84
+Negative	0.90	0.95	0.93
+Positive	0.95	0.90	0.92
+Weighted Avg.	0.89
+
+
+
+
+Final:
+[Executed at: Wed Feb 1 19:13:21 PST 2017]
+
+Precision	Recall	F1
+Deceptive	0.85	0.86	0.86
+Truthful	0.86	0.85	0.86
+Negative	0.89	0.95	0.92
+Positive	0.95	0.88	0.91
+Weighted Avg.	0.89
