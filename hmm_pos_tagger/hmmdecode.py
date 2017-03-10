@@ -4,9 +4,11 @@
 # Description: Loads the HMM POS tagger parameters and classifies/predicts tags for input data
 
 import json
-import sys
-
 import unicodedata
+from operator import itemgetter
+from math import log
+
+import sys
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -16,7 +18,7 @@ if len(sys.argv) != 2:
     print "Usage: python hmmdecode.py /path/to/input"
     exit(1)
 
-# load HMM POS tagger parameters
+    # load HMM POS tagger parameters
 with open('hmmmodel.txt', 'rb') as f_hmm_params:
     json_prob = json.load(f_hmm_params)
 
@@ -48,13 +50,21 @@ def emission_val(word, tag):
     if word not in known_words:
         return 1
     else: # known word: return probability 0 if not seen in training set for specific tag/state
-        return emission_prob[tag][word] if word in emission_prob[state] else 0
+        if word in emission_prob[state]:
+            return emission_prob[tag][word]
+        else:
+            return 0
+
+# weighted log
+def wt_log(num):
+    """ Avoids computing log(0) by summing 1 to the input. Hence, when input = 0, log(input) = 0 """
+    return log(1 + num)
 
 
-
-with open(f_te_text) as te_text:
+with open(f_te_text) as te_text, open("hmmoutput.txt", "wb") as f_out:
     for line in te_text:
-        line = unicodedata.normalize('NFD', unicode(line)).encode('ascii', 'ignore')
+        # normalized_line = unicodedata.normalize('NFD', unicode(line)).encode('ascii', 'ignore')
+        # normalized_line = line
         words = line.strip().split(' ')
 
         probability = {}
@@ -68,23 +78,66 @@ with open(f_te_text) as te_text:
         word = words[0]
 
         for state in states:
-            probability[state][0] = transition_prob["q0"][state] * emission_val(word, state)
+            probability[state][0] = wt_log(transition_prob["q0"][state]) + wt_log(emission_val(word, state))
             backpointer[state][0] = "q0"
+            # # For debugging purposes
+            # print "State:", state, ", ", "word:", word
+            # print transition_prob["q0"][state], wt_log(transition_prob["q0"][state])
+            # print emission_val(word, state), wt_log(emission_val(word, state))
 
         for (pos, word) in enumerate(words[1:], 1):
-            emission_val(word, state)
+            for state in states:
+                # init max and argmax values
+                prev_state = states[0]
+                max_p = probability[prev_state][pos - 1] + \
+                        wt_log(transition_prob[prev_state][state]) + \
+                        wt_log(emission_val(word, state))
+                probability[state][pos] = max_p
+                backpointer[state][pos] = prev_state
 
+                for prev_state in states:
+                    # print wt_log(emission_val(word, state))
+                    # previous probability should not be log - ed (it was already calculated using log; negative number)
+                    p = \
+                        probability[prev_state][pos - 1] + \
+                        wt_log(transition_prob[prev_state][state]) + \
+                        wt_log(emission_val(word, state))
 
-# print len(probability["NC"])
+                    if p > max_p:
+                        max_p = p
+                        probability[state][pos] = max_p
+                        backpointer[state][pos] = prev_state
 
+        # print probability
+        # print backpointer
 
+        most_likely_state = states[0]
+        max_prob = probability[most_likely_state][pos]
+        for state in states:
+            if probability[state][pos] > max_prob:
+                max_prob = probability[state][pos]
+                most_likely_state = state
 
-        # prev_state = "q0"
-        # for unit in line.strip().split(' '):
+        path = [state]
+        for i in range(pos, 0, -1):
+            state = backpointer[state][i]
+            path.append(state)
+        path.reverse()
+        # print words
+        # print path
 
+        # write output to text file in correct format
+        words = line.strip().split(' ')
+        f_out.write(words[0] + "/" + path[0])
 
-for (i, j) in enumerate(range(2,10), 3):
-    print (i, j)
+        try:
+            for i in range(1, len(words)):
+                f_out.write(" " + words[i] + "/" + path[i])
+            f_out.write("\n")
+        except:
+            print "Problem line:"
+            print words
+            print path
 
 
 

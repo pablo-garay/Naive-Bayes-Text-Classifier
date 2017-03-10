@@ -25,12 +25,13 @@ emission_prob = {}
 num_tag_ocurrences = {}
 word_dict = {}
 
+# Compute transition and emission probabilities from training file
 with open(f_tr_text) as tr_text:
     for line in tr_text:
         prev_state = "q0"
         for unit in line.strip().split(' '):
             word = unit[:-3]
-            word = unicodedata.normalize('NFD', unicode(word)).encode('ascii','ignore')
+            # word = unicodedata.normalize('NFD', unicode(word)).encode('ascii','ignore')
             tag = unit[-2:]
             # print "word: " + word + " " + "tag: " + tag
             # possible_tags.add(tag)
@@ -67,23 +68,26 @@ with open(f_tr_text) as tr_text:
 possible_tags = num_tag_ocurrences.keys()
 # print possible_tags
 
-# Calculate transition probabilities: Divide by proper denominator
+# Calculate transition probabilities: Divide by proper denominator (including use of Laplace (Add-One) Smoothing)
 for prev_state in transition_prob:
+    # Apply Laplace (Add-One) Smoothing
     total = sum([transition_prob[prev_state][next_state] for next_state in transition_prob[prev_state]])
     # print total
+
     for tag in possible_tags:
         if tag not in transition_prob[prev_state]:
-            transition_prob[prev_state][tag] = 0.0
+            transition_prob[prev_state][tag] = 1.0 / float(total + len(possible_tags))
         else:
-            transition_prob[prev_state][tag] = float(transition_prob[prev_state][tag]) / float(total)
+            transition_prob[prev_state][tag] = (float(transition_prob[prev_state][tag]) + 1) / float(total + len(possible_tags))
 
-# print transition_prob
+print transition_prob
 
 # # For debug purposes: test if probabilities sum up to 1
 # for prev_state in transition_prob:
 #     tot_sum = sum([transition_prob[prev_state][tag] for tag in transition_prob[prev_state]])
 #     print tot_sum
 
+# Calculate emission probabilities: Divide by proper denominator
 for tag in emission_prob:
     num_ocurrences_tag = num_tag_ocurrences[tag]
     for word in emission_prob[tag]:
