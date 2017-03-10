@@ -30,7 +30,7 @@ with open(f_tr_text) as tr_text:
     for line in tr_text:
         prev_state = "q0"
         for unit in line.strip().split(' '):
-            word = unit[:-3]
+            word = unit[:-3].lower()
             # word = unicodedata.normalize('NFD', unicode(word)).encode('ascii','ignore')
             tag = unit[-2:]
             # print "word: " + word + " " + "tag: " + tag

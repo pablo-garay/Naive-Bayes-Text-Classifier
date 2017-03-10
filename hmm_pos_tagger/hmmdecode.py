@@ -7,20 +7,29 @@ import json
 import unicodedata
 from operator import itemgetter
 from math import log
+from time import time
 
 import sys
 
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-# parse command-line params
+# PARSE command-line params
 if len(sys.argv) != 2:
     print "Usage: python hmmdecode.py /path/to/input"
     exit(1)
 
-    # load HMM POS tagger parameters
+# load HMM POS tagger parameters
 with open('hmmmodel.txt', 'rb') as f_hmm_params:
     json_prob = json.load(f_hmm_params)
+
+# print json_prob
+transition_prob = json_prob["transition_prob"]
+emission_prob = json_prob["emission_prob"]
+states = json_prob["states"]
+# print transition_prob
+# print emission_prob
+# print states
 
 # load list of known words
 known_words = set()
@@ -30,13 +39,6 @@ with open("wordlist.txt", "rb") as f_wordlist:
         known_words.add(word)
 print "num of words known:", len(known_words)
 
-# print json_prob
-transition_prob = json_prob["transition_prob"]
-emission_prob = json_prob["emission_prob"]
-states = json_prob["states"]
-# print transition_prob
-# print emission_prob
-# print states
 
 f_te_text = sys.argv[1]
 # most_likely_paths = [["q0"] for state in range(len(states))]
@@ -58,14 +60,17 @@ def emission_val(word, tag):
 # weighted log
 def wt_log(num):
     """ Avoids computing log(0) by summing 1 to the input. Hence, when input = 0, log(input) = 0 """
-    return log(1 + num)
+    return log(0.01 + num)
 
+start = time()
+recursion_step_time = 0
 
 with open(f_te_text) as te_text, open("hmmoutput.txt", "wb") as f_out:
     for line in te_text:
         # normalized_line = unicodedata.normalize('NFD', unicode(line)).encode('ascii', 'ignore')
         # normalized_line = line
-        words = line.strip().split(' ')
+        raw_words = line.strip().split(' ')
+        words = [raw_word.lower() for raw_word in raw_words]
 
         probability = {}
         backpointer = {}
@@ -74,6 +79,7 @@ with open(f_te_text) as te_text, open("hmmoutput.txt", "wb") as f_out:
             probability[state] = [None for t in range(len(words))]
             backpointer[state] = [None for t in range(len(words))]
 
+        # Viterbi Algorithm - INITIALIZATION STEP
         # for unknown tokens in the test data, ignore the emission probabilities
         word = words[0]
 
@@ -85,6 +91,10 @@ with open(f_te_text) as te_text, open("hmmoutput.txt", "wb") as f_out:
             # print transition_prob["q0"][state], wt_log(transition_prob["q0"][state])
             # print emission_val(word, state), wt_log(emission_val(word, state))
 
+
+
+        start_recursion = time()
+        # RECURSION STEP FOR THE REMAINING POINTS
         for (pos, word) in enumerate(words[1:], 1):
             for state in states:
                 # init max and argmax values
@@ -107,10 +117,17 @@ with open(f_te_text) as te_text, open("hmmoutput.txt", "wb") as f_out:
                         max_p = p
                         probability[state][pos] = max_p
                         backpointer[state][pos] = prev_state
+        recursion_step_time += (time() - start_recursion)
 
         # print probability
         # print backpointer
 
+
+
+
+
+
+        # TERMINATION STEP
         most_likely_state = states[0]
         max_prob = probability[most_likely_state][pos]
         for state in states:
@@ -127,17 +144,17 @@ with open(f_te_text) as te_text, open("hmmoutput.txt", "wb") as f_out:
         # print path
 
         # write output to text file in correct format
-        words = line.strip().split(' ')
-        f_out.write(words[0] + "/" + path[0])
+        f_out.write(raw_words[0] + "/" + path[0])
 
         try:
-            for i in range(1, len(words)):
-                f_out.write(" " + words[i] + "/" + path[i])
+            for i in range(1, len(raw_words)):
+                f_out.write(" " + raw_words[i] + "/" + path[i])
             f_out.write("\n")
         except:
             print "Problem line:"
-            print words
+            print raw_words
             print path
 
 
-
+print "Time to execute decoder: ", time() - start
+print "Time spent in recursion step: ", recursion_step_time
