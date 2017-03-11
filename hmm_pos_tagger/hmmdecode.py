@@ -52,7 +52,7 @@ def emission_val(word, tag):
     if word not in known_words:
         return 1
     else: # known word: return probability 0 if not seen in training set for specific tag/state
-        if word in emission_prob[state]:
+        if word in emission_prob[tag]:
             return emission_prob[tag][word]
         else:
             return 0
@@ -91,32 +91,26 @@ with open(f_te_text) as te_text, open("hmmoutput.txt", "wb") as f_out:
             # print transition_prob["q0"][state], wt_log(transition_prob["q0"][state])
             # print emission_val(word, state), wt_log(emission_val(word, state))
 
-
-
         start_recursion = time()
         # RECURSION STEP FOR THE REMAINING POINTS
         for (pos, word) in enumerate(words[1:], 1):
             for state in states:
-                # init max and argmax values
-                prev_state = states[0]
-                max_p = probability[prev_state][pos - 1] + \
-                        wt_log(transition_prob[prev_state][state]) + \
-                        wt_log(emission_val(word, state))
-                probability[state][pos] = max_p
-                backpointer[state][pos] = prev_state
+                wt_log_emission_val = wt_log(emission_val(word, state))
+                # print wt_log_emission_val
+                max_p = float("-inf")
 
                 for prev_state in states:
-                    # print wt_log(emission_val(word, state))
                     # previous probability should not be log - ed (it was already calculated using log; negative number)
                     p = \
                         probability[prev_state][pos - 1] + \
                         wt_log(transition_prob[prev_state][state]) + \
-                        wt_log(emission_val(word, state))
+                        wt_log_emission_val
 
                     if p > max_p:
                         max_p = p
                         probability[state][pos] = max_p
                         backpointer[state][pos] = prev_state
+
         recursion_step_time += (time() - start_recursion)
 
         # print probability
@@ -128,8 +122,7 @@ with open(f_te_text) as te_text, open("hmmoutput.txt", "wb") as f_out:
 
 
         # TERMINATION STEP
-        most_likely_state = states[0]
-        max_prob = probability[most_likely_state][pos]
+        max_prob = float("-inf")
         for state in states:
             if probability[state][pos] > max_prob:
                 max_prob = probability[state][pos]
@@ -138,14 +131,13 @@ with open(f_te_text) as te_text, open("hmmoutput.txt", "wb") as f_out:
         path = [state]
         for i in range(pos, 0, -1):
             state = backpointer[state][i]
-            path.append(state)
-        path.reverse()
+            path.insert(0, state)
         # print words
         # print path
 
+
         # write output to text file in correct format
         f_out.write(raw_words[0] + "/" + path[0])
-
         try:
             for i in range(1, len(raw_words)):
                 f_out.write(" " + raw_words[i] + "/" + path[i])

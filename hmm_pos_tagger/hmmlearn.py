@@ -100,11 +100,17 @@ for tag in emission_prob:
 #     tot_sum = sum([transition_prob[tag][word] for word in transition_prob[tag]])
 #     print tot_sum
 
+included_words = 0
 with open("wordlist.txt", "wb") as f_out, open("wordcount.txt", "wb") as fc_out:
     for w, c in sorted(word_dict.items(), key=operator.itemgetter(1), reverse=True):
-        f_out.write("%s\n" %w)
         fc_out.write("%s : %d\n" % (w, c))
+
+    for w, c in sorted(word_dict.items(), key=operator.itemgetter(0)):
+        if (c >= 5): #only include words appearing 10 times or more
+            f_out.write("%s\n" % w)
+            included_words += 1
 print "total num of words: ", len(word_dict)
+print "total num of words included (not discarded): ", included_words
 
 # # For information purposes: print list of words with their count
 # with open("wordcount.txt", "wb") as f_out:
