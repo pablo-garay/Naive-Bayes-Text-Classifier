@@ -18,12 +18,11 @@ sys.setdefaultencoding('utf8')
 if len(sys.argv) != 2:
     print "Usage: python hmmdecode.py /path/to/input"
     exit(1)
+f_te_text = sys.argv[1]
 
 # load HMM POS tagger parameters
 with open('hmmmodel.txt', 'rb') as f_hmm_params:
     json_prob = json.load(f_hmm_params)
-
-# print json_prob
 transition_prob = json_prob["transition_prob"]
 emission_prob = json_prob["emission_prob"]
 states = json_prob["states"]
@@ -39,31 +38,34 @@ with open("wordlist.txt", "rb") as f_wordlist:
         known_words.add(word)
 print "num of words known:", len(known_words)
 
-
-f_te_text = sys.argv[1]
-# most_likely_paths = [["q0"] for state in range(len(states))]
-# print most_likely_paths
-# print len(most_likely_paths)
-
+# weighted log
+def wt_log(num):
+    """ Avoids computing log(0) by summing 1 to the input. Hence, when input = 0, log(input) = 0 """
+    return log(num)
 
 def emission_val(word, tag):
     # if unknown word, ignore emission probabilities
-    # print known_words
     if word not in known_words:
-        return 1
+        return wt_log(1)
     else: # known word: return probability 0 if not seen in training set for specific tag/state
         if word in emission_prob[tag]:
             return emission_prob[tag][word]
         else:
-            return 0
-
-# weighted log
-def wt_log(num):
-    """ Avoids computing log(0) by summing 1 to the input. Hence, when input = 0, log(input) = 0 """
-    return log(0.01 + num)
+            return wt_log(1e-100) # THIS IS KEY: value taken as best hyperparameter value found
 
 start = time()
 recursion_step_time = 0
+
+# precompute weighted log of transition probabilities
+for x in transition_prob.keys():
+    for y in transition_prob[x].keys():
+        transition_prob[x][y] = wt_log(transition_prob[x][y])
+
+# precompute weighted log of emission probabilities
+for x in emission_prob.keys():
+    for y in emission_prob[x].keys():
+        emission_prob[x][y] = wt_log(emission_prob[x][y])
+
 
 with open(f_te_text) as te_text, open("hmmoutput.txt", "wb") as f_out:
     for line in te_text:
@@ -84,27 +86,22 @@ with open(f_te_text) as te_text, open("hmmoutput.txt", "wb") as f_out:
         word = words[0]
 
         for state in states:
-            probability[state][0] = wt_log(transition_prob["q0"][state]) + wt_log(emission_val(word, state))
+            probability[state][0] = transition_prob["q0"][state] + emission_val(word, state)
             backpointer[state][0] = "q0"
-            # # For debugging purposes
-            # print "State:", state, ", ", "word:", word
-            # print transition_prob["q0"][state], wt_log(transition_prob["q0"][state])
-            # print emission_val(word, state), wt_log(emission_val(word, state))
 
         start_recursion = time()
         # RECURSION STEP FOR THE REMAINING POINTS
         for (pos, word) in enumerate(words[1:], 1):
             for state in states:
-                wt_log_emission_val = wt_log(emission_val(word, state))
-                # print wt_log_emission_val
+                computed_emission_val = emission_val(word, state)
                 max_p = float("-inf")
 
                 for prev_state in states:
                     # previous probability should not be log - ed (it was already calculated using log; negative number)
                     p = \
                         probability[prev_state][pos - 1] + \
-                        wt_log(transition_prob[prev_state][state]) + \
-                        wt_log_emission_val
+                        transition_prob[prev_state][state] + \
+                        computed_emission_val
 
                     if p > max_p:
                         max_p = p
@@ -113,8 +110,6 @@ with open(f_te_text) as te_text, open("hmmoutput.txt", "wb") as f_out:
 
         recursion_step_time += (time() - start_recursion)
 
-        # print probability
-        # print backpointer
 
 
 
