@@ -38,6 +38,16 @@ with open("wordlist.txt", "rb") as f_wordlist:
         known_words.add(word)
 print "num of words known:", len(known_words)
 
+def detect_proper_noun(raw_word, word_at_beginning_of_sentence = False):
+    if word_at_beginning_of_sentence:
+        if raw_word[0].isupper() and len(raw_word.split("_")) >= 2 and \
+                        sum(1 for c in raw_word if c.isupper()) >= 2 and not any(char.isdigit() for char in raw_word):
+            return True
+    else: #word not at beginning of sentence
+        if raw_word[0].isupper() and not any(char.isdigit() for char in raw_word):
+            return True
+    return False
+
 # weighted log
 def wt_log(num):
     """ Avoids computing log(0) by summing 1 to the input. Hence, when input = 0, log(input) = 0 """
@@ -125,18 +135,22 @@ with open(f_te_text) as te_text, open("hmmoutput.txt", "wb") as f_out:
 
         # print most_likely_state
         path = [most_likely_state]
-        for i in range(pos, 0, -1):
-            state = backpointer[state][i]
+        for pos in range(pos, 0, -1):
+            state = backpointer[state][pos]
             path.insert(0, state)
         # print words
         # print path
 
-
         # write output to text file in correct format
+        if detect_proper_noun(raw_words[0], word_at_beginning_of_sentence=True):
+            path[0] = "NP"
         f_out.write(raw_words[0] + "/" + path[0])
         try:
-            for i in range(1, len(raw_words)):
-                f_out.write(" " + raw_words[i] + "/" + path[i])
+            for pos in range(1, len(raw_words)):
+                # if position of word is not beginning of sentence (pos > 0) and word capitalized, tag as proper name: NP tag
+                if detect_proper_noun(raw_words[pos], word_at_beginning_of_sentence=False):
+                    path[pos] = "NP"
+                f_out.write(" " + raw_words[pos] + "/" + path[pos])
             f_out.write("\n")
         except:
             print "Problem line:"
