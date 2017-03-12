@@ -5,8 +5,8 @@
 # Description: Learns a HMM POS tagger from a training set provided as command-line argument
 
 import json
-import unicodedata
 import operator
+from utils import *
 import sys
 
 reload(sys)
@@ -29,8 +29,7 @@ with open(f_tr_text) as tr_text:
     for line in tr_text:
         prev_state = "q0" #initial state is "q0"
         for token in line.strip().split(' '):
-            word = token[:-3].lower()
-            # word = unicodedata.normalize('NFD', unicode(word)).encode('ascii','ignore')
+            word = normalize_word(token[:-3])
             state = token[-2:]
             # print "word: " + word + " " + "tag: " + tag
             # possible_tags.add(tag)
@@ -81,7 +80,7 @@ with open("wordlist.txt", "wb") as f_out, open("wordcount.txt", "wb") as fc_out:
         fc_out.write("%s : %d\n" % (w, c))
 
     for w, c in sorted(word_dict.items(), key=operator.itemgetter(0)):
-        if (c >= 5): #only include words appearing 10 times or more
+        if (c >= 0): #only include words appearing x times or more
             f_out.write("%s\n" % w)
             included_words += 1
 print "total num of words: ", len(word_dict)

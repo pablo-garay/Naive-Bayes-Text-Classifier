@@ -4,10 +4,10 @@
 # Description: Loads the HMM POS tagger parameters and classifies/predicts tags for input data
 
 import json
-import unicodedata
 from operator import itemgetter
 from math import log
 from time import time
+from utils import *
 
 import sys
 
@@ -72,7 +72,7 @@ with open(f_te_text) as te_text, open("hmmoutput.txt", "wb") as f_out:
         # normalized_line = unicodedata.normalize('NFD', unicode(line)).encode('ascii', 'ignore')
         # normalized_line = line
         raw_words = line.strip().split(' ')
-        words = [raw_word.lower() for raw_word in raw_words]
+        words = [normalize_word(raw_word) for raw_word in raw_words]
 
         probability = {}
         backpointer = {}

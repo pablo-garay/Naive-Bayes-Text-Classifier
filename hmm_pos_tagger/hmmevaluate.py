@@ -33,5 +33,6 @@ with open("hmmoutput.txt", "rb") as f_predicted_tags, open("data/catalan_corpus_
 
 print "Total correct predictions: ", correct
 print "Total incorrect predictions: ", incorrect
+print "Total: ", correct + incorrect
 
 print "Accuracy", float(correct) / float(correct + incorrect)
