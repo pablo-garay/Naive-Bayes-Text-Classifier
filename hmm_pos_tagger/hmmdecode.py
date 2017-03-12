@@ -123,7 +123,8 @@ with open(f_te_text) as te_text, open("hmmoutput.txt", "wb") as f_out:
                 max_prob = probability[state][pos]
                 most_likely_state = state
 
-        path = [state]
+        # print most_likely_state
+        path = [most_likely_state]
         for i in range(pos, 0, -1):
             state = backpointer[state][i]
             path.insert(0, state)
